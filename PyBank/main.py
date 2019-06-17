@@ -10,6 +10,7 @@ runningChange =0
 averageChange =0
 topProfits =0
 topLoss =0
+changes = []
 
 with open(csvpath, newline="") as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")
@@ -17,8 +18,13 @@ with open(csvpath, newline="") as csvfile:
     for row in csvreader:
         monthcount += 1
         cashtotal = cashtotal + int(row[1])
-        profitChange= int(row[1]) - prevRowValue
-        runningChange -= profitChange
+        if monthcount >1:
+            profitChange= int(row[1]) -prevRowValue
+            changes.append(profitChange)
+        #runningChange -= profitChange
+
+        
+
 
         if profitChange >topProfits:
             topProfits =profitChange
@@ -27,13 +33,16 @@ with open(csvpath, newline="") as csvfile:
             topLoss =profitChange
             topLossMonth = str(row[0])
         prevRowValue = int(row[1])
-        
-averageChange = runningChange / (monthcount -1)
+
+#Original averageChange calculation- flawed.        
+#averageChange = runningChange / (monthcount -1)
+#List usage averageChange calculation
+averageChange = float(sum(changes)/len(changes))
 
 print("Financial Analysis\n-------------------------")
 print("Total Months: " + str(monthcount))
 print("Total: $" + str(cashtotal))
-print("Average  Change: $" + str(averageChange))
+print("Average  Change: $" + str(round(averageChange,2)))
 print("Greatest Increase in Profits: " + topProfitMonth + " ($"+ str(topProfits)+")")
 print("Greatest Decrease in Profits: " + topLossMonth + " ($"+  str(topLoss)+")")
 
