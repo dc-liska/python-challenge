@@ -1,3 +1,5 @@
+#main.py for PyBank, by David Liska
+
 import os
 import csv
 
@@ -21,9 +23,6 @@ with open(csvpath, newline="") as csvfile:
         if monthcount >1:
             profitChange= int(row[1]) -prevRowValue
             changes.append(profitChange)
-        #runningChange -= profitChange
-
-        
 
 
         if profitChange >topProfits:
@@ -36,27 +35,17 @@ with open(csvpath, newline="") as csvfile:
             pass
         prevRowValue = int(row[1])
         
-
-#Original averageChange calculation- flawed.        
-#averageChange = runningChange / (monthcount -1)
-#List usage averageChange calculation
 averageChange = float(sum(changes)/len(changes))
-
-print("Financial Analysis\n-------------------------")
+#****Terminal output****
+print("\nFinancial Analysis\n-------------------------")
 print("Total Months: " + str(monthcount))
 print("Total: $" + str(cashtotal))
 print("Average  Change: $" + str(round(averageChange,2)))
 print("Greatest Increase in Profits: " + topProfitMonth + " ($"+ str(topProfits)+")")
 print("Greatest Decrease in Profits: " + topLossMonth + " ($"+  str(topLoss)+")")
 
-#print("Financial Analysis\n------------------------\nTotal Months: " + str(monthcount)+
-#   "\nTotal: $" + str(cashtotal)+"\nAverage  Change: $" + str(round(averageChange,2))+ 
-#    "\nGreatest Increase in Profits: " + topProfitMonth + " ($"+ str(topProfits)+")"+ 
-#    "\nGreatest Decrease in Profits: " + topLossMonth + " ($"+  str(topLoss)+")",...,)
-
-#with open(output_path, 'w', newline='\n') as textfile:
+#****File output****
 fileHandler= open('pyBankOutput.txt','w')
-
 fileHandler.write('Financial Analysis\n------------------------\nTotal Months: ' + str(monthcount) +
     '\nTotal: $' + str(cashtotal) +
     '\nAverage  Change: $' + str(round(averageChange,2))+
